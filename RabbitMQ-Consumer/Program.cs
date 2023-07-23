@@ -14,12 +14,13 @@ channel.QueueDeclare(queue: "queue-example", exclusive: false);
 
 EventingBasicConsumer consumer = new(channel);
 channel.BasicConsume("queue-example", autoAck: true, consumer);
+//channel.BasicConsume("queue-example", autoAck:false, consumer); Ack mesajını otomatik olarak göndermez.
 
 consumer.Received += (sender, ea) =>
 {
     var body = ea.Body.Span;
     Console.WriteLine("Received: " + Encoding.UTF8.GetString(body));
-
+    //channel.BasicAck(deliveryTag:ea.DeliveryTag,multiple:false); Queue'ya mesajın işlendiğine dair ack mesajı gönderir.
 };
 
 
